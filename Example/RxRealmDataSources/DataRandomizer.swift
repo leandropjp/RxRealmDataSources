@@ -11,8 +11,8 @@ import RealmSwift
 import RxSwift
 
 extension Int {
-    public func random() -> Int {
-        return Int(arc4random_uniform(UInt32(self)))
+    public func random(_ modifier: Int = 0) -> Int {
+        return Int(arc4random_uniform(UInt32(self + modifier)))
     }
 }
 
@@ -52,7 +52,7 @@ class DataRandomizer {
     private func insertRow() {
         try! realm.write {
             let timerLaps = realm.objects(Timer.self).first!.laps
-            let index = timerLaps.count.random()
+            let index = timerLaps.count.random(1)
             timerLaps.insert(Lap(), at: index)
             print("insert at [\(index)]")
         }
