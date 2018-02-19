@@ -11,20 +11,18 @@ import RealmSwift
 import RxSwift
 
 extension Int {
-    public func random() -> Int {
-        return Int(arc4random_uniform(UInt32(self)))
+    public func random(_ modifier: Int = 0) -> Int {
+        return Int(arc4random_uniform(UInt32(self + modifier)))
     }
 }
 
-class DataRandomizer {
+class DataRandomizer<T: Object> {
 
+    private let config: Realm.Configuration
+    private let collection: (Realm) -> List<T>
+    private let create: () -> T
+    private let update: (T) -> Void
     private var bag = DisposeBag()
-
-    lazy var config: Realm.Configuration = {
-        var config = Realm.Configuration.defaultConfiguration
-        config.inMemoryIdentifier = UUID().uuidString
-        return config
-    }()
 
     private lazy var realm: Realm = {
         let realm: Realm
@@ -38,45 +36,72 @@ class DataRandomizer {
         }
     }()
 
-    init() {
-        reset()
+    init(config: Realm.Configuration, collection: @escaping (Realm) -> List<T>, create: @escaping () -> T = { T() }, update: @escaping (T) -> Void) {
+        self.config = config
+        self.collection = collection
+        self.create = create
+        self.update = update
     }
 
-    func reset() {
-        try! realm.write {
-            realm.deleteAll()
-            realm.add(Timer())
-        }
+    deinit {
+        print("\(self) died!!!")
     }
 
     private func insertRow() {
-        try! realm.write {
-            let timerLaps = realm.objects(Timer.self).first!.laps
-            let index = timerLaps.count.random()
-            timerLaps.insert(Lap(), at: index)
+        write { [weak self] realm in
+            guard let `self` = self else { return }
+            let collection = self.collection(realm)
+            let index = collection.count.random(1)
+            collection.insert(self.create(), at: index)
             print("insert at [\(index)]")
         }
     }
 
     private func updateRow() {
-        try! realm.write {
-            let timerLaps = realm.objects(Timer.self).first!.laps
-            let index = timerLaps.count.random()
-            timerLaps[index].text = ">" + timerLaps[index].text
+        write { [weak self] realm in
+            guard let `self` = self else { return }
+            let collection = self.collection(realm)
+            let index = collection.count.random()
+            self.update(collection[index])
             print("update at [\(index)]")
         }
     }
 
     private func deleteRow() {
-        try! realm.write {
-            let timerLaps = realm.objects(Timer.self).first!.laps
-            let index = timerLaps.count.random()
-          timerLaps.remove(at: index)
+        write { [weak self] realm in
+            guard let `self` = self else { return }
+            let collection = self.collection(realm)
+            let index = collection.count.random()
+            collection.remove(at: index)
             print("delete from [\(index)]")
         }
     }
 
+    private func write(_ block: @escaping (Realm) -> Void) {
+        let config = self.config
+        writeQueue.async {
+            autoreleasepool {
+                do {
+                    let realm = try Realm(configuration: config)
+                    try realm.write { block(realm) }
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
+
     func start() {
+        print("Starting with \(T.self)")
+
+        for _ in 1...1 {
+            insertRow()
+            insertRow()
+            insertRow()
+            insertRow()
+            insertRow()
+        }
+
         // insert some laps
         Observable<Int>.interval(1.0, scheduler: MainScheduler.instance)
             .subscribe(onNext: {[weak self] _ in
@@ -84,13 +109,15 @@ class DataRandomizer {
             })
             .disposed(by: bag)
 
-        Observable<Int>.interval(1.0, scheduler: MainScheduler.instance)
-            .subscribe(onNext: {[weak self] _ in
-                self?.updateRow()
-            })
-            .disposed(by: bag)
-
-        Observable<Int>.interval(2.4, scheduler: MainScheduler.instance)
+        for _ in 0..<1 {
+            Observable<Int>.interval(1.0, scheduler: MainScheduler.instance)
+                .subscribe(onNext: {[weak self] _ in
+                    self?.updateRow()
+                })
+                .disposed(by: bag)
+        }
+        
+        Observable<Int>.interval(3.4, scheduler: MainScheduler.instance)
             .subscribe(onNext: {[weak self] _ in
                 self?.deleteRow()
             })
@@ -101,3 +128,5 @@ class DataRandomizer {
         bag = DisposeBag()
     }
 }
+
+private let writeQueue = DispatchQueue(label: "Realm.write.queue", qos: .utility)

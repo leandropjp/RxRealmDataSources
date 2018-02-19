@@ -18,8 +18,22 @@ class CollectionViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
 
+    static let config: Realm.Configuration = {
+        var config = Realm.Configuration.defaultConfiguration
+        config.inMemoryIdentifier = UUID().uuidString
+        return config
+    }()
+
+    private lazy var data: DataRandomizer<Lap> = {
+        let realm = try! Realm(configuration: type(of: self).config)
+        try! realm.write { realm.add(Timer()) }
+        let laps = { (realm: Realm) -> List<Lap> in realm.objects(Timer.self).first!.laps }
+        return DataRandomizer(config: type(of: self).config, collection: laps) { lap in
+            lap.text = ">" + lap.text
+        }
+    }()
+
     private let bag = DisposeBag()
-    private let data = DataRandomizer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +41,16 @@ class CollectionViewController: UIViewController {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(CollectionViewController.handleLongGesture(gesture:)))
         collectionView.addGestureRecognizer(longPressGesture)
 
+        // initializa data store
+        _ = data
+        
         // create data source
         let dataSource = RxCollectionViewRealmDataSource<Lap>(cellIdentifier: "Cell", cellType: LapCollectionCell.self) {cell, ip, lap in
             cell.customLabel.text = "\(ip.row). \(lap.text)"
         }
 
         // RxRealm to get Observable<Results>
-        let realm = try! Realm(configuration: data.config)
+        let realm = try! Realm(configuration: type(of: self).config)
         let laps = Observable.changeset(from: realm.objects(Timer.self).first!.laps)
             .share()
 

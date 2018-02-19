@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		145AC3CBCB09D8F547291B1D /* Pods_Demo_RxRealmDataSources_MacExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F784B7D7B4997170AC744C0 /* Pods_Demo_RxRealmDataSources_MacExample.framework */; };
+		5F0449B42039CD3F007202C0 /* SectionedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0449B32039CD3F007202C0 /* SectionedViewController.swift */; };
+		5F0449B62039D6B1007202C0 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0449B52039D6B1007202C0 /* Run.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -41,6 +43,8 @@
 		3FC4E7E2D70508F61AC94626 /* Pods-RxRealmDataSources_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxRealmDataSources_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxRealmDataSources_Tests/Pods-RxRealmDataSources_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		433CFEEAC500E1915E943474 /* Pods-Demo-RxRealmDataSources_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo-RxRealmDataSources_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo-RxRealmDataSources_Example/Pods-Demo-RxRealmDataSources_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4F784B7D7B4997170AC744C0 /* Pods_Demo_RxRealmDataSources_MacExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_RxRealmDataSources_MacExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F0449B32039CD3F007202C0 /* SectionedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedViewController.swift; sourceTree = "<group>"; };
+		5F0449B52039D6B1007202C0 /* Run.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* RxRealmDataSources_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxRealmDataSources_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -237,6 +241,7 @@
 			children = (
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				9CA37C461DF853E500C1DF6C /* PersonCell.swift */,
+				5F0449B32039CD3F007202C0 /* SectionedViewController.swift */,
 			);
 			name = "1. Table View Data Source";
 			sourceTree = "<group>";
@@ -246,6 +251,7 @@
 			children = (
 				9CB0B5741DF9E9E800F947D0 /* Lap.swift */,
 				9CB0B5761DF9EA0F00F947D0 /* Timer.swift */,
+				5F0449B52039D6B1007202C0 /* Run.swift */,
 			);
 			name = "Data Entities";
 			path = RxRealmDataSources;
@@ -330,7 +336,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 9MF8G8D9Y5;
+						DevelopmentTeam = DU7A7D6MU6;
 						LastSwiftMigration = 0900;
 					};
 					9C5B02CE1E1678C80009FBDE = {
@@ -515,6 +521,8 @@
 				9CA89C631DFDF129008ADCD2 /* LapCollectionCell.swift in Sources */,
 				9C530D081DFDD7340096144C /* DataRandomizer.swift in Sources */,
 				9CA37C471DF853E500C1DF6C /* PersonCell.swift in Sources */,
+				5F0449B62039D6B1007202C0 /* Run.swift in Sources */,
+				5F0449B42039CD3F007202C0 /* SectionedViewController.swift in Sources */,
 				9CB0B5751DF9E9E800F947D0 /* Lap.swift in Sources */,
 				9CA89C651DFDF1A4008ADCD2 /* CollectionViewController.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
@@ -673,9 +681,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9MF8G8D9Y5;
+				DEVELOPMENT_TEAM = DU7A7D6MU6;
 				INFOPLIST_FILE = RxRealmDataSources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -692,9 +700,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9MF8G8D9Y5;
+				DEVELOPMENT_TEAM = DU7A7D6MU6;
 				INFOPLIST_FILE = RxRealmDataSources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";

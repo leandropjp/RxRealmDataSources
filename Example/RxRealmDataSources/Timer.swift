@@ -11,4 +11,6 @@ import RealmSwift
 
 class Timer: Object {
     let laps = List<Lap>()
+    @objc dynamic var uuid = UUID().uuidString
+    @objc dynamic var dummy = ""
 }
