@@ -74,8 +74,10 @@ import RxRealm
         private let fromRow = {(row: Int) in return IndexPath(row: row, section: 0)}
 
         func applyChanges(to collectionView: UICollectionView, items: AnyRealmCollection<E>, changes: RealmChangeset?) {
-            if self.items == nil {
+            guard self.items === items else {
                 self.items = items
+                collectionView.reloadData()
+                return
             }
 
             guard animated else {
