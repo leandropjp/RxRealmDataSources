@@ -34,6 +34,8 @@ import RxRealm
 
         public var headerTitle: String?
         public var footerTitle: String?
+        public var canEdit: Bool?
+        public var editCallback: ((IndexPath) -> ())?
 
         // MARK: - Init
         public let cellIdentifier: String
@@ -84,6 +86,16 @@ import RxRealm
 
         public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
             return footerTitle
+        }
+
+        public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            return canEdit ?? false
+        }
+
+        public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                editCallback?(indexPath)
+            }
         }
 
         // MARK: - Applying changeset to the table view
