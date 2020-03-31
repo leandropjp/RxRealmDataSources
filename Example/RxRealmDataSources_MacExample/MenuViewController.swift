@@ -13,11 +13,6 @@ class MenuViewController: NSViewController {
 
     let menuItems = ["Table Demo", "Collection Demo"]
     let targetNames = ["TableViewController", "CollectionViewController"]
-
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        tableView.selectRowIndexes(IndexSet([0]), byExtendingSelection: false)
-    }
 }
 
 extension MenuViewController: NSTableViewDataSource {
