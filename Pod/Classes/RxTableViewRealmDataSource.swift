@@ -102,7 +102,7 @@ import RxRealm
         private let fromRow = {(row: Int) in return IndexPath(row: row, section: 0)}
 
         func applyChanges(to tableView: UITableView, items: AnyRealmCollection<E>, changes: RealmChangeset?) {
-            guard self.items === items else {
+            guard self.items as AnyObject? === items as AnyObject else {
                 self.items = items
                 tableView.reloadData()
                 return
