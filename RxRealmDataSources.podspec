@@ -23,8 +23,8 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'Foundation'
 
-  s.dependency 'RealmSwift', '~> 4'
+  s.dependency 'RealmSwift', '~> 5'
   s.dependency 'RxSwift',    '~> 5'
   s.dependency 'RxCocoa',    '~> 5'
-  s.dependency 'RxRealm',    '~> 2'
+  s.dependency 'RxRealm',    '~> 3'
 end
